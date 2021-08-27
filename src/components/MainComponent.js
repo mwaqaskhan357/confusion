@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Menu from "./MenuComponent";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
@@ -10,8 +10,6 @@ import About from "./AboutComponent";
 import { connect } from "react-redux";
 
 const Main = (props) => {
-  const [dishId, setDishId] = useState(null);
-
   const HomePage = () => {
     return (
       <Home
@@ -63,10 +61,10 @@ const Main = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    dishes: state.dishes,
-    comments: state.comments,
-    promotions: state.promotions,
-    leaders: state.leaders,
+    dishes: state.dishes.dishes,
+    comments: state.comments.comments,
+    promotions: state.promotions.promotions,
+    leaders: state.leaders.leaders,
   };
 };
 
