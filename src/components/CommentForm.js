@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useParams } from "react-router";
+import { set_comments } from "../redux/actions/commentAction";
 import {
   Button,
   Col,
@@ -12,8 +14,10 @@ import {
   ModalHeader,
   Row,
 } from "reactstrap";
+import { connect } from "react-redux";
 
 const CommentForm = (props) => {
+  const param = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [values, setValues] = useState({
     rating: 0,
@@ -35,9 +39,17 @@ const CommentForm = (props) => {
   };
 
   const handleSubmit = (event) => {
-    alert(
-      "Current State is: " + JSON.stringify(values) + JSON.stringify(touched)
-    );
+    props.set_comments([
+      ...props.comments,
+      {
+        rating: parseFloat(values.rating),
+        id: props.comments?.length || 0,
+        dishId: parseInt(param.dishId),
+        author: values.name,
+        date: new Date(),
+        comment: values.comment,
+      },
+    ]);
     event.preventDefault();
   };
 
@@ -58,7 +70,6 @@ const CommentForm = (props) => {
   };
 
   const errors = validate(values.name, values.comment);
-
   return (
     <div>
       <Button
@@ -138,4 +149,14 @@ const CommentForm = (props) => {
   );
 };
 
-export default CommentForm;
+const mapStateToProps = (state) => {
+  return {
+    comments: state.comments.comments,
+  };
+};
+
+const mapDispatchToProps = {
+  set_comments,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);
