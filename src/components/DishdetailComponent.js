@@ -2,10 +2,7 @@ import React from "react";
 import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
-<<<<<<< Updated upstream
 import CommentForm from "./CommentForm";
-=======
->>>>>>> Stashed changes
 
 const DishDetail = (props) => {
   const renderComments = (comments) => {
@@ -29,21 +26,14 @@ const DishDetail = (props) => {
                 </ul>
               );
             })}
-<<<<<<< Updated upstream
             <CommentForm />
-=======
->>>>>>> Stashed changes
           </>
         )}
       </div>
     );
   };
 
-<<<<<<< Updated upstream
   const { dish, comments } = props;
-=======
-  const { dish } = props;
->>>>>>> Stashed changes
 
   return (
     <div className="container">
@@ -70,11 +60,7 @@ const DishDetail = (props) => {
               </CardBody>
             </Card>
           </div>
-<<<<<<< Updated upstream
           {renderComments(comments)}
-=======
-          {renderComments(dish?.comments)}
->>>>>>> Stashed changes
         </div>
       )}
     </div>
