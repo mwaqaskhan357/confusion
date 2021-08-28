@@ -7,7 +7,7 @@ export const promotionReducer = (
 ) => {
   switch (action.type) {
     case type.SET_PROMOTIONS:
-      return { ...state, promotions: action.promotions };
+      return { ...state, promotions: action.payload };
     default:
       return state;
   }
