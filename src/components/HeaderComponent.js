@@ -16,14 +16,11 @@ import {
   Label,
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 const Header = (props) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const userRef = useRef(null);
-  const passRef = useRef(null);
-  const rememberRef = useRef(null);
   const handleChange = (e) => {
     const target = e.target;
     let name = target.name;

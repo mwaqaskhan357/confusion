@@ -6,7 +6,7 @@ export const commentReducer = (state = { comments: COMMENTS }, action) => {
     case type.SET_COMMENTS:
       return {
         ...state,
-        comments: action.comments,
+        comments: action.payload,
       };
     default:
       return state;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Menu from "./MenuComponent";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
@@ -8,12 +8,19 @@ import Contact from "./ContactComponent";
 import DishDetail from "./DishdetailComponent";
 import About from "./AboutComponent";
 import { connect } from "react-redux";
+import { set_dishes } from "../redux/actions/dishAction";
 
 const Main = (props) => {
+  useEffect(() => {
+    props.set_dishes();
+  }, []);
+
   const HomePage = () => {
     return (
       <Home
         dish={props.dishes?.filter((dish) => dish?.featured)[0]}
+        dishLoading={props.dishesLoading}
+        dishesError={props.dishesError}
         promotion={props.promotions?.filter((promo) => promo?.featured)[0]}
         leader={props.leaders.filter((leader) => leader?.featured)[0]}
       />
@@ -28,6 +35,8 @@ const Main = (props) => {
             (dish) => dish.id === parseInt(match.params.dishId, 10)
           )[0]
         }
+        isLoading={props.dishesLoading}
+        dishError={props.dishesError}
         comments={props.comments.filter(
           (comment) => comment.dishId === parseInt(match.params.dishId, 10)
         )}
@@ -62,10 +71,16 @@ const Main = (props) => {
 const mapStateToProps = (state) => {
   return {
     dishes: state.dishes.dishes,
+    dishesLoading: state.dishes.isLoading,
+    dishesError: state.dishes.errorMessage,
     comments: state.comments.comments,
     promotions: state.promotions.promotions,
     leaders: state.leaders.leaders,
   };
 };
 
-export default withRouter(connect(mapStateToProps)(Main));
+const mapDispatchToProps = {
+  set_dishes,
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

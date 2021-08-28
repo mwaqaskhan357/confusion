@@ -12,7 +12,6 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  Row,
 } from "reactstrap";
 import { connect } from "react-redux";
 

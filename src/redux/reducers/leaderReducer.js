@@ -6,7 +6,7 @@ export const leaderReducer = (state = { leaders: LEADERS }, action) => {
     case type.SET_LEADERS:
       return {
         ...state,
-        leaders: action.leaders,
+        leaders: action.payload,
       };
     default:
       return state;
