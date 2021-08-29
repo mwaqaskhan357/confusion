@@ -1,12 +1,30 @@
+import { baseUrl } from "../../shared/baseUrl";
 import { type } from "../type";
-import { DISHES } from "../../shared/dishes";
 
 export const set_dishes = () => (dispatch) => {
   dispatch(dishesLoading());
 
-  setTimeout(() => {
-    dispatch(addDishes(DISHES));
-  }, 2000);
+  fetch(baseUrl + "dishes")
+    .then(
+      (response) => {
+        if (response.ok) {
+          return response;
+        } else {
+          let error = new Error(
+            "Error" + response.status + ": " + response.statusText
+          );
+          error.response = response;
+          throw error;
+        }
+      },
+      (error) => {
+        const errormess = new Error(error.message);
+        throw errormess;
+      }
+    )
+    .then((response) => response.json())
+    .then((dishes) => dispatch(addDishes(dishes)))
+    .catch((error) => dispatch(dishesFailed(error.message)));
 };
 
 const dishesLoading = () => ({
@@ -19,6 +37,6 @@ const dishesFailed = (errorMessage) => ({
 });
 
 const addDishes = (dishes) => ({
-  type: type.SET_DISHES,
+  type: type.ADD_DISHES,
   payload: dishes,
 });

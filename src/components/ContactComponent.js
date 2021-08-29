@@ -1,13 +1,7 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Col,
-  FormFeedback,
-} from "reactstrap";
+import { Row, Button, Form, Label, Input, Col, FormFeedback } from "reactstrap";
+import { resetForm } from "../redux/actions/contactAction";
+import { connect } from "react-redux";
 
 function Contact(props) {
   const [values, setValues] = useState({
@@ -42,6 +36,15 @@ function Contact(props) {
   const handleSubmit = (event) => {
     console.log("Current State is: " + JSON.stringify(values));
     alert("Current State is: " + JSON.stringify(values));
+    setValues({
+      firstname: "",
+      lastname: "",
+      telnum: "",
+      email: "",
+      agree: false,
+      contactType: "Tel.",
+      message: "",
+    });
     event.preventDefault();
   };
 
@@ -88,7 +91,7 @@ function Contact(props) {
         </div>
         <div className="col-12 col-md-9">
           <Form onSubmit={handleSubmit}>
-            <FormGroup row>
+            <Row className="form-group">
               <Label htmlFor="firstname" md={2}>
                 First Name
               </Label>
@@ -99,15 +102,14 @@ function Contact(props) {
                   name="firstname"
                   placeholder="First Name"
                   value={values.firstname}
-                  valid={errors.firstname === ""}
                   invalid={errors.firstname !== ""}
                   onBlur={handleBlur("firstname")}
                   onChange={handleInputChange}
                 />
                 <FormFeedback>{errors.firstname}</FormFeedback>
               </Col>
-            </FormGroup>
-            <FormGroup row>
+            </Row>
+            <Row className="form-group">
               <Label htmlFor="lastname" md={2}>
                 Last Name
               </Label>
@@ -118,15 +120,14 @@ function Contact(props) {
                   name="lastname"
                   placeholder="Last Name"
                   value={values.lastname}
-                  valid={errors.lastname === ""}
                   invalid={errors.lastname !== ""}
                   onBlur={handleBlur("lastname")}
                   onChange={handleInputChange}
                 />
                 <FormFeedback>{errors.lastname}</FormFeedback>
               </Col>
-            </FormGroup>
-            <FormGroup row>
+            </Row>
+            <Row className="form-group">
               <Label htmlFor="telnum" md={2}>
                 Contact Tel.
               </Label>
@@ -137,15 +138,14 @@ function Contact(props) {
                   name="telnum"
                   placeholder="Tel. Number"
                   value={values.telnum}
-                  valid={errors.telnum === ""}
                   invalid={errors.telnum !== ""}
                   onBlur={handleBlur("telnum")}
                   onChange={handleInputChange}
                 />
                 <FormFeedback>{errors.telnum}</FormFeedback>
               </Col>
-            </FormGroup>
-            <FormGroup row>
+            </Row>
+            <Row className="form-group">
               <Label htmlFor="email" md={2}>
                 Email
               </Label>
@@ -156,21 +156,63 @@ function Contact(props) {
                   name="email"
                   placeholder="Email"
                   value={values.email}
-                  valid={errors.email === ""}
                   invalid={errors.email !== ""}
                   onBlur={handleBlur("email")}
                   onChange={handleInputChange}
                 />
                 <FormFeedback>{errors.email}</FormFeedback>
               </Col>
-            </FormGroup>
-            <FormGroup row>
+            </Row>
+            <Row className="form-group">
+              <Col md={{ size: 6, offset: 2 }}>
+                <div className="form-check">
+                  <Label check>
+                    <Input
+                      type="checkbox"
+                      name="agree"
+                      id="agree"
+                      className="form-check-input"
+                      checked={values.agree}
+                      onChange={handleInputChange}
+                    />{" "}
+                    <strong>May we contact you?</strong>
+                  </Label>
+                </div>
+              </Col>
+              <Col md={{ size: 3, offset: 1 }}>
+                <Input
+                  type="select"
+                  name="contactType"
+                  className="form-control"
+                  value={values.contactType}
+                  onChange={handleInputChange}
+                >
+                  <option>Tel.</option>
+                  <option>Email</option>
+                </Input>
+              </Col>
+            </Row>
+            <Row className="form-group">
+              <Label htmlFor="message" md={2}>
+                Your Feedback
+              </Label>
+              <Col md={10}>
+                <Input
+                  type="textarea"
+                  id="message"
+                  name="message"
+                  rows="12"
+                  className="form-control"
+                />
+              </Col>
+            </Row>
+            <Row className="form-group">
               <Col md={{ size: 10, offset: 2 }}>
                 <Button type="submit" color="primary">
                   Send Feedback
                 </Button>
               </Col>
-            </FormGroup>
+            </Row>
           </Form>
         </div>
       </div>
@@ -178,4 +220,14 @@ function Contact(props) {
   );
 }
 
-export default Contact;
+const mapStateToProps = (state) => {
+  return {
+    values: state.initialFeadback,
+  };
+};
+
+const mapDispatchToProps = {
+  resetForm,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Contact);

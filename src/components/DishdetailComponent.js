@@ -4,6 +4,7 @@ import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
 import CommentForm from "./CommentForm";
 import LoadingComponent from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
 
 const renderComments = (comments) => {
   return (
@@ -56,7 +57,7 @@ const DishDetail = ({ dish, comments, isLoading, dishError }) => {
         <div className="row m-1">
           <div className="col-12 col-md-5 pb-2">
             <Card>
-              <CardImg top src={dish?.image} alt={dish?.name} />
+              <CardImg top src={baseUrl + dish?.image} alt={dish?.name} />
               <CardBody>
                 <CardTitle>{dish?.name}</CardTitle>
                 <CardText>{dish?.description}</CardText>
