@@ -11,6 +11,12 @@ export const commentReducer = (
         comments: action.payload,
         errorMessage: null,
       };
+    case type.POST_COMMENT:
+      return {
+        ...state,
+        comments: [...state.comments, action.payload],
+        errorMessage: null,
+      };
     case type.COMMENTS_FAILED:
       return {
         ...state,

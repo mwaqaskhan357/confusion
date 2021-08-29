@@ -8,6 +8,7 @@ import Contact from "./ContactComponent";
 import DishDetail from "./DishdetailComponent";
 import About from "./AboutComponent";
 import { connect } from "react-redux";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { set_dishes } from "../redux/actions/dishAction";
 import { set_leaders } from "../redux/actions/leaderAction";
 import { set_comments } from "../redux/actions/commentAction";
@@ -57,28 +58,32 @@ const Main = (props) => {
   return (
     <div>
       <Header />
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route
-          exact
-          path="/menu"
-          component={() => <Menu dishes={props.dishes} />}
-        />
-        <Route exact path="/contactus" component={Contact} />
-        <Route
-          exact
-          path="/aboutus"
-          component={() => (
-            <About
-              leaders={props.leaders}
-              isLoading={props.leaderLoading}
-              errorMessage={props.leaderError}
+      <TransitionGroup>
+        <CSSTransition key={props.location.key} classNames="page" timeout={300}>
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route
+              exact
+              path="/menu"
+              component={() => <Menu dishes={props.dishes} />}
             />
-          )}
-        />
-        <Route path="/menu/:dishId" component={DishWithId} />
-        <Redirect path="/" />
-      </Switch>
+            <Route exact path="/contactus" component={Contact} />
+            <Route
+              exact
+              path="/aboutus"
+              component={() => (
+                <About
+                  leaders={props.leaders}
+                  isLoading={props.leaderLoading}
+                  errorMessage={props.leaderError}
+                />
+              )}
+            />
+            <Route path="/menu/:dishId" component={DishWithId} />
+            <Redirect path="/" />
+          </Switch>
+        </CSSTransition>
+      </TransitionGroup>{" "}
       <Footer />
     </div>
   );
