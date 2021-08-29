@@ -9,10 +9,16 @@ import DishDetail from "./DishdetailComponent";
 import About from "./AboutComponent";
 import { connect } from "react-redux";
 import { set_dishes } from "../redux/actions/dishAction";
+import { set_leaders } from "../redux/actions/leaderAction";
+import { set_comments } from "../redux/actions/commentAction";
+import { set_promotions } from "../redux/actions/promotionAction";
 
 const Main = (props) => {
   useEffect(() => {
     props.set_dishes();
+    props.set_leaders();
+    props.set_promotions();
+    props.set_comments();
   }, []);
 
   const HomePage = () => {
@@ -22,7 +28,11 @@ const Main = (props) => {
         dishLoading={props.dishesLoading}
         dishesError={props.dishesError}
         promotion={props.promotions?.filter((promo) => promo?.featured)[0]}
-        leader={props.leaders.filter((leader) => leader?.featured)[0]}
+        leader={props.leaders?.filter((leader) => leader?.featured)[0]}
+        leaderLoading={props.leaderLoading}
+        leaderError={props.leaderError}
+        promoLoading={props.promoLoading}
+        promoError={props.promoError}
       />
     );
   };
@@ -58,7 +68,13 @@ const Main = (props) => {
         <Route
           exact
           path="/aboutus"
-          component={() => <About leaders={props.leaders} />}
+          component={() => (
+            <About
+              leaders={props.leaders}
+              isLoading={props.leaderLoading}
+              errorMessage={props.leaderError}
+            />
+          )}
         />
         <Route path="/menu/:dishId" component={DishWithId} />
         <Redirect path="/" />
@@ -76,11 +92,18 @@ const mapStateToProps = (state) => {
     comments: state.comments.comments,
     promotions: state.promotions.promotions,
     leaders: state.leaders.leaders,
+    leaderLoading: state.leaders.isLoading,
+    leaderError: state.leaders.errorMessage,
+    promoLoading: state.promotions.isLoading,
+    promoError: state.promotions.errorMessage,
   };
 };
 
 const mapDispatchToProps = {
   set_dishes,
+  set_comments,
+  set_leaders,
+  set_promotions,
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

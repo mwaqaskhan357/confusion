@@ -8,12 +8,25 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import RenderLeader from "./RenderLeader";
+import LoadingComponent from "./LoadingComponent";
+
+const Leaders = ({ isLoading, errorMessage, leaders }) => {
+  if (isLoading) {
+    return <LoadingComponent />;
+  } else if (errorMessage) {
+    return <h4>{errorMessage}</h4>;
+  } else {
+    return (
+      <>
+        {leaders?.map((leader) => (
+          <RenderLeader leader={leader} />
+        ))}
+      </>
+    );
+  }
+};
 
 function About(props) {
-  const leaders = props.leaders?.map((leader) => {
-    return <RenderLeader leader={leader} />;
-  });
-
   return (
     <div className="container">
       <div className="row">
@@ -89,7 +102,13 @@ function About(props) {
         <div className="col-12">
           <h2>Corporate Leadership</h2>
         </div>
-        <div className="col-12">{leaders}</div>
+        <div className="col-12">
+          <Leaders
+            isLoading={props.isLoading}
+            errorMessage={props.errorMessage}
+            leaders={props.leaders}
+          />
+        </div>
       </div>
     </div>
   );

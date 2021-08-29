@@ -5,7 +5,7 @@ export const dishReducer = (
   action
 ) => {
   switch (action.type) {
-    case type.SET_DISHES:
+    case type.ADD_DISHES:
       return {
         ...state,
         dishes: action.payload,
@@ -19,7 +19,7 @@ export const dishReducer = (
         errorMessage: null,
         dishes: [],
       };
-    case type.DISHES_FIALED:
+    case type.DISHES_FAILED:
       return {
         ...state,
         isLoading: false,
