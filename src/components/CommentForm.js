@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router";
-import { set_comments } from "../redux/actions/commentAction";
+import { post_comment } from "../redux/actions/commentAction";
 import {
   Button,
   Col,
@@ -38,17 +38,12 @@ const CommentForm = (props) => {
   };
 
   const handleSubmit = (event) => {
-    props.set_comments([
-      ...props.comments,
-      {
-        rating: parseFloat(values.rating),
-        id: props.comments?.length || 0,
-        dishId: parseInt(param.dishId),
-        author: values.name,
-        date: new Date(),
-        comment: values.comment,
-      },
-    ]);
+    props.post_comment({
+      rating: parseFloat(values.rating),
+      dishId: parseInt(param.dishId),
+      author: values.name,
+      comment: values.comment,
+    });
     event.preventDefault();
   };
 
@@ -148,14 +143,8 @@ const CommentForm = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    comments: state.comments.comments,
-  };
-};
-
 const mapDispatchToProps = {
-  set_comments,
+  post_comment,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);
+export default connect(null, mapDispatchToProps)(CommentForm);

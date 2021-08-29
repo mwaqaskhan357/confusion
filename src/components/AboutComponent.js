@@ -7,24 +7,7 @@ import {
   CardHeader,
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import RenderLeader from "./RenderLeader";
-import LoadingComponent from "./LoadingComponent";
-
-const Leaders = ({ isLoading, errorMessage, leaders }) => {
-  if (isLoading) {
-    return <LoadingComponent />;
-  } else if (errorMessage) {
-    return <h4>{errorMessage}</h4>;
-  } else {
-    return (
-      <>
-        {leaders?.map((leader) => (
-          <RenderLeader leader={leader} />
-        ))}
-      </>
-    );
-  }
-};
+import { Leaders } from "./Leaders";
 
 function About(props) {
   return (
